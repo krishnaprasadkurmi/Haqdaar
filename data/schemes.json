@@ -1,0 +1,137 @@
+[
+  {
+    "scheme_id": "SCHEME-PMJAY",
+    "name": "Ayushman Bharat - Pradhan Mantri Jan Arogya Yojana (PM-JAY)",
+    "type": "National / Central Scheme",
+    "sponsor": "National Health Authority (Government of India)",
+    "coverage_limit": "₹5,00,000 per family per year",
+    "cashless": true,
+    "eligibility_rules": {
+      "income_categories": ["BPL", "AAY", "PHH", "Rural Deprived (SECC D1-D7)", "Urban Occupational D1-D11"],
+      "states": ["Bihar", "Karnataka"],
+      "summary": "Covers families identified under SECC 2011 database, Antyodaya Anna Yojana (AAY), and Priority Household (PHH) ration card holders across India."
+    },
+    "covered_conditions": [
+      {
+        "condition": "Dialysis",
+        "specialty": "Nephrology",
+        "hbp_code": "NEP01A",
+        "package_details": "Hemodialysis package including dialyzer reuse, erythropoietin injections, and monthly nephrologist review. Fully cashless.",
+        "pre_auth_required": false
+      },
+      {
+        "condition": "Cardiac",
+        "specialty": "Cardiology / CTVS",
+        "hbp_code": "CTS04B",
+        "package_details": "Covers PTCA stenting, Coronary Artery Bypass Grafting (CABG), valve replacement, pacemaker implantation, and emergency ICU stabilization.",
+        "pre_auth_required": true
+      },
+      {
+        "condition": "Maternity",
+        "specialty": "Obstetrics & Gynecology",
+        "hbp_code": "OBS02A",
+        "package_details": "High-risk institutional delivery, Caesarean section, neonatal nursery/NICU care for neonates, and postpartum complications.",
+        "pre_auth_required": false
+      },
+      {
+        "condition": "Oncology",
+        "specialty": "Medical & Surgical Oncology",
+        "hbp_code": "ONC01C",
+        "package_details": "Surgical resection, systemic chemotherapy cycles, targeted therapy, linear accelerator radiotherapy, and palliative supportive care.",
+        "pre_auth_required": true
+      }
+    ],
+    "helpline": "14555",
+    "official_portal": "https://pmjay.gov.in"
+  },
+  {
+    "scheme_id": "SCHEME-BIH-MMJAY",
+    "name": "Mukhyamantri Jan Arogya Yojana (MMJAY Bihar)",
+    "type": "State Sponsored Scheme",
+    "sponsor": "Bihar Swasthya Suraksha Samiti (Govt of Bihar)",
+    "coverage_limit": "₹5,00,000 per family per year",
+    "cashless": true,
+    "eligibility_rules": {
+      "income_categories": ["BPL", "AAY", "PHH", "Ration Card (NFSA)"],
+      "states": ["Bihar"],
+      "summary": "Covers all NFSA ration-card holding families in Bihar who were omitted from the original 2011 SECC list, giving parity with PM-JAY benefits."
+    },
+    "covered_conditions": [
+      {
+        "condition": "Dialysis",
+        "specialty": "Nephrology",
+        "hbp_code": "BIH-NEP-01",
+        "package_details": "Hemodialysis at district medical colleges and empanelled private centers across Bihar.",
+        "pre_auth_required": false
+      },
+      {
+        "condition": "Cardiac",
+        "specialty": "Cardiology",
+        "hbp_code": "BIH-CTS-02",
+        "package_details": "Stenting, bypass surgeries, and interventional cardiac treatments at IGIMS, AIIMS, and empanelled cardiac centers.",
+        "pre_auth_required": true
+      },
+      {
+        "condition": "Maternity",
+        "specialty": "Obstetrics & Gynecology",
+        "hbp_code": "BIH-OBS-01",
+        "package_details": "Emergency surgical deliveries and maternal intensive care in government & empanelled facilities.",
+        "pre_auth_required": false
+      },
+      {
+        "condition": "Oncology",
+        "specialty": "Oncology",
+        "hbp_code": "BIH-ONC-03",
+        "package_details": "Chemotherapy & surgical oncology at Mahavir Cancer Sansthan, IGIMS, and AIIMS Patna.",
+        "pre_auth_required": true
+      }
+    ],
+    "helpline": "104 / 14555",
+    "official_portal": "https://statehealthsocietybihar.org"
+  },
+  {
+    "scheme_id": "SCHEME-KAR-ARK",
+    "name": "Ayushman Bharat - Arogya Karnataka (ArK)",
+    "type": "Co-Branded State Scheme",
+    "sponsor": "Suvarna Arogya Suraksha Trust (Govt of Karnataka)",
+    "coverage_limit": "₹5,00,000 / family (Cat A Eligible), up to ₹1,50,000 (Cat B General)",
+    "cashless": true,
+    "eligibility_rules": {
+      "income_categories": ["BPL", "AAY", "PHH", "APL / General"],
+      "states": ["Karnataka"],
+      "summary": "Universal healthcare covering Category A (BPL/Eligible households - 100% cashless treatment up to ₹5 Lakh) and Category B (APL/General - 30% financial assistance at govt package rates)."
+    },
+    "covered_conditions": [
+      {
+        "condition": "Dialysis",
+        "specialty": "Nephrology",
+        "hbp_code": "ARK-NEP-01",
+        "package_details": "Free maintenance hemodialysis at INU, Victoria Hospital, KIMS, and taluk level dialysis centers.",
+        "pre_auth_required": false
+      },
+      {
+        "condition": "Cardiac",
+        "specialty": "Cardiology / CTVS",
+        "hbp_code": "ARK-CTS-01",
+        "package_details": "Comprehensive cardiac intervention at Sri Jayadeva Institute and Narayana Health City without out-of-pocket costs for Cat A.",
+        "pre_auth_required": true
+      },
+      {
+        "condition": "Maternity",
+        "specialty": "Obstetrics & Gynecology",
+        "hbp_code": "ARK-OBS-02",
+        "package_details": "High-risk pregnancy care, C-sections, and neonatal care at Vani Vilas and Cheluvamba Hospitals.",
+        "pre_auth_required": false
+      },
+      {
+        "condition": "Oncology",
+        "specialty": "Oncology",
+        "hbp_code": "ARK-ONC-04",
+        "package_details": "Comprehensive multidisciplinary cancer therapy at Kidwai Memorial Institute of Oncology.",
+        "pre_auth_required": true
+      }
+    ],
+    "helpline": "1800-425-8330 / 104",
+    "official_portal": "https://arogya.karnataka.gov.in"
+  }
+]

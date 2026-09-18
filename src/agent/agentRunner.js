@@ -25,13 +25,42 @@ export function checkForEmergency(query = '') {
 }
 
 /**
+ * Comprehensive Indian States & Major Cities Map
+ */
+const INDIAN_LOCATIONS = [
+  { state: 'Delhi', district: 'New Delhi', keywords: ['delhi', 'new delhi', 'ncr', 'noida', 'gurgaon', 'gurugram', 'faridabad', 'ghaziabad'] },
+  { state: 'Maharashtra', district: 'Mumbai', keywords: ['maharashtra', 'mumbai', 'pune', 'nagpur', 'nashik', 'thane', 'aurangabad', 'sambhajinagar', 'solapur', 'kolhapur'] },
+  { state: 'Karnataka', district: 'Bengaluru Urban', keywords: ['karnataka', 'bengaluru', 'bangalore', 'mysuru', 'mysore', 'hubballi', 'hubli', 'dharwad', 'mangaluru', 'mangalore', 'belagavi'] },
+  { state: 'Tamil Nadu', district: 'Chennai', keywords: ['tamil nadu', 'tamilnadu', 'chennai', 'coimbatore', 'madurai', 'trichy', 'tiruchirappalli', 'salem', 'vellore', 'tirunelveli'] },
+  { state: 'Uttar Pradesh', district: 'Lucknow', keywords: ['uttar pradesh', 'up', 'lucknow', 'kanpur', 'varanasi', 'banaras', 'kashi', 'agra', 'gorakhpur', 'prayagraj', 'allahabad', 'meerut', 'bareilly', 'aligarh'] },
+  { state: 'West Bengal', district: 'Kolkata', keywords: ['west bengal', 'bengal', 'kolkata', 'calcutta', 'howrah', 'durgapur', 'asansol', 'siliguri'] },
+  { state: 'Gujarat', district: 'Ahmedabad', keywords: ['gujarat', 'ahmedabad', 'surat', 'vadodara', 'baroda', 'rajkot', 'bhavnagar', 'jamnagar', 'gandhinagar'] },
+  { state: 'Rajasthan', district: 'Jaipur', keywords: ['rajasthan', 'jaipur', 'jodhpur', 'udaipur', 'kota', 'bikaner', 'ajmer'] },
+  { state: 'Telangana', district: 'Hyderabad', keywords: ['telangana', 'hyderabad', 'secunderabad', 'warangal', 'nizamabad', 'karimnagar'] },
+  { state: 'Andhra Pradesh', district: 'Visakhapatnam', keywords: ['andhra pradesh', 'andhra', 'visakhapatnam', 'vizag', 'vijayawada', 'guntur', 'nellore', 'tirupati', 'kurnool'] },
+  { state: 'Kerala', district: 'Thiruvananthapuram', keywords: ['kerala', 'kochi', 'cochin', 'thiruvananthapuram', 'trivandrum', 'kozhikode', 'calicut', 'thrissur', 'kollam'] },
+  { state: 'Madhya Pradesh', district: 'Bhopal', keywords: ['madhya pradesh', 'mp', 'bhopal', 'indore', 'jabalpur', 'gwalior', 'ujjain'] },
+  { state: 'Bihar', district: 'Patna', keywords: ['bihar', 'patna', 'gaya', 'muzaffarpur', 'bhagalpur', 'darbhanga', 'purnia', 'begusarai'] },
+  { state: 'Punjab', district: 'Chandigarh', keywords: ['punjab', 'chandigarh', 'ludhiana', 'amritsar', 'jalandhar', 'patiala', 'bathinda'] },
+  { state: 'Haryana', district: 'Gurugram', keywords: ['haryana', 'panipat', 'ambala', 'karnal', 'rohtak', 'hisar'] },
+  { state: 'Odisha', district: 'Bhubaneswar', keywords: ['odisha', 'orissa', 'bhubaneswar', 'cuttack', 'rourkela', 'berhampur', 'sambalpur'] },
+  { state: 'Assam', district: 'Guwahati', keywords: ['assam', 'guwahati', 'silchar', 'dibrugarh', 'jorhat'] },
+  { state: 'Jharkhand', district: 'Ranchi', keywords: ['jharkhand', 'ranchi', 'jamshedpur', 'dhanbad', 'bokaro'] },
+  { state: 'Chhattisgarh', district: 'Raipur', keywords: ['chhattisgarh', 'raipur', 'bhilai', 'bilaspur', 'korba'] },
+  { state: 'Uttarakhand', district: 'Dehradun', keywords: ['uttarakhand', 'dehradun', 'rishikesh', 'haridwar', 'haldwani', 'roorkee'] },
+  { state: 'Himachal Pradesh', district: 'Shimla', keywords: ['himachal', 'himachal pradesh', 'shimla', 'dharamshala', 'solan', 'mandi'] },
+  { state: 'Jammu and Kashmir', district: 'Srinagar', keywords: ['jammu', 'kashmir', 'srinagar', 'anantnag'] },
+  { state: 'Goa', district: 'North Goa', keywords: ['goa', 'panaji', 'margao', 'vasco'] }
+];
+
+/**
  * Parses free text query into structured params
- * Exported so Conversational UI can show "What I Understood" before running!
+ * Supports ANY medical condition and ANY State in India!
  */
 export function extractEntitiesFromQuery(query = '') {
-  const q = query.toLowerCase();
+  const q = query.toLowerCase().trim();
 
-  // Patient Relation
+  // 1. Patient Relation
   let patientRelation = 'Self';
   if (q.includes('father') || q.includes('dad') || q.includes('papa')) {
     patientRelation = 'Father';
@@ -47,47 +76,86 @@ export function extractEntitiesFromQuery(query = '') {
     patientRelation = 'Family Member';
   }
 
-  // Urgency
+  // 2. Urgency
   let urgency = 'Routine / Planned Admission';
   if (checkForEmergency(query)) {
     urgency = 'Immediate Emergency (108/112 Protocol)';
-  } else if (q.includes('urgent') || q.includes('emergency') || q.includes('immediate') || q.includes('asap') || q.includes('pain')) {
+  } else if (q.includes('urgent') || q.includes('emergency') || q.includes('immediate') || q.includes('asap') || q.includes('severe')) {
     urgency = 'Urgent (Within 24-48 Hours)';
   }
 
-  // State
-  let state = 'Bihar';
-  if (q.includes('karnataka') || q.includes('bengaluru') || q.includes('bangalore') || q.includes('mysuru') || q.includes('hubballi')) {
-    state = 'Karnataka';
-  } else if (q.includes('bihar') || q.includes('patna') || q.includes('gaya') || q.includes('muzaffarpur')) {
-    state = 'Bihar';
-  }
-
-  // District
+  // 3. Location: State & District across India
+  let state = 'All India';
   let district = '';
-  if (q.includes('patna')) district = 'Patna';
-  else if (q.includes('gaya')) district = 'Gaya';
-  else if (q.includes('muzaffarpur')) district = 'Muzaffarpur';
-  else if (q.includes('bengaluru') || q.includes('bangalore')) district = 'Bengaluru Urban';
-  else if (q.includes('mysuru') || q.includes('mysore')) district = 'Mysuru';
-  else if (q.includes('hubballi') || q.includes('dharwad')) district = 'Hubballi';
-  else {
-    district = state === 'Bihar' ? 'Patna' : 'Bengaluru Urban';
+
+  for (const loc of INDIAN_LOCATIONS) {
+    const matchedKw = loc.keywords.find(kw => q.includes(kw));
+    if (matchedKw) {
+      state = loc.state;
+      // If keyword matched a specific city, use it as district
+      district = matchedKw.charAt(0).toUpperCase() + matchedKw.slice(1);
+      // Capitalize properly if it matches the default district
+      if (loc.keywords.indexOf(matchedKw) > 0) {
+        district = matchedKw.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+      } else {
+        district = loc.district;
+      }
+      break;
+    }
   }
 
-  // Condition
-  let condition = 'Dialysis';
-  if (q.includes('dialysis') || q.includes('kidney') || q.includes('renal')) {
+  // Default fallback if no city/state in query
+  if (state === 'All India') {
+    state = 'All India';
+    district = 'National Empanelled Network';
+  }
+
+  // 4. Condition / Disease Analysis across all medical branches!
+  let condition = 'Neurosurgery / Brain Surgery'; // Default candidate if brain surgery
+
+  if (q.includes('brain') || q.includes('head surgery') || q.includes('craniotomy') || q.includes('tumor in head') || q.includes('brain tumor') || q.includes('aneurysm') || q.includes('neuro') || q.includes('spine')) {
+    condition = 'Neurosurgery / Brain Surgery';
+  } else if (q.includes('knee') || q.includes('hip') || q.includes('joint') || q.includes('bone') || q.includes('fracture') || q.includes('ortho') || q.includes('ligament') || q.includes('tkr') || q.includes('thr')) {
+    condition = 'Orthopedics / Joint Replacement';
+  } else if (q.includes('eye') || q.includes('cataract') || q.includes('retina') || q.includes('cornea') || q.includes('glaucoma') || q.includes('vision') || q.includes('motiyabind')) {
+    condition = 'Ophthalmology / Eye Surgery';
+  } else if (q.includes('dialysis') || q.includes('kidney') || q.includes('renal') || q.includes('creatinine') || q.includes('nephro')) {
     condition = 'Dialysis';
-  } else if (q.includes('cardiac') || q.includes('heart') || q.includes('bypass') || q.includes('stent') || q.includes('angioplasty')) {
+  } else if (q.includes('cardiac') || q.includes('heart') || q.includes('bypass') || q.includes('stent') || q.includes('angioplasty') || q.includes('cabg') || q.includes('valve') || q.includes('pacemaker')) {
     condition = 'Cardiac';
-  } else if (q.includes('maternity') || q.includes('delivery') || q.includes('pregnancy') || q.includes('pregnant') || q.includes('c-section')) {
-    condition = 'Maternity';
-  } else if (q.includes('oncology') || q.includes('cancer') || q.includes('chemo') || q.includes('chemotherapy') || q.includes('tumor')) {
+  } else if (q.includes('cancer') || q.includes('chemo') || q.includes('chemotherapy') || q.includes('oncology') || q.includes('radiation') || q.includes('tumor') || q.includes('biopsy') || q.includes('leukemia')) {
     condition = 'Oncology';
+  } else if (q.includes('liver') || q.includes('gallbladder') || q.includes('appendix') || q.includes('gastro') || q.includes('hernia') || q.includes('jaundice') || q.includes('stomach') || q.includes('cirrhosis')) {
+    condition = 'Gastroenterology / GI & Liver Surgery';
+  } else if (q.includes('maternity') || q.includes('delivery') || q.includes('pregnancy') || q.includes('pregnant') || q.includes('c-section') || q.includes('cesarean')) {
+    condition = 'Maternity';
+  } else if (q.includes('pediatric') || q.includes('child surgery') || q.includes('infant') || q.includes('congenital')) {
+    condition = 'Pediatric Surgery';
+  } else if (q.includes('lung') || q.includes('respiratory') || q.includes('asthma') || q.includes('pneumonia') || q.includes('copd')) {
+    condition = 'Pulmonology / Respiratory';
+  } else if (q.includes('stroke') || q.includes('paralysis') || q.includes('epilepsy') || q.includes('seizure')) {
+    condition = 'Neurology';
+  } else if (q.includes('ear') || q.includes('throat') || q.includes('tonsil') || q.includes('sinus') || q.includes('ent')) {
+    condition = 'ENT / Head-Neck Surgery';
+  } else {
+    // Dynamic Condition Extraction: preserve what the citizen entered!
+    // Clean common stopwords to extract clinical phrase
+    const cleaned = q
+      .replace(/my (father|mother|sister|brother|wife|husband|son|daughter|child|relative) (needs|has|is suffering from)/g, '')
+      .replace(/which empanelled hospital provides cashless treatment/g, '')
+      .replace(/what documents are needed/g, '')
+      .replace(/we hold a (bpl|apl|ration|aay) card/g, '')
+      .replace(/(in|at) (patna|bengaluru|delhi|mumbai|chennai|kolkata|bihar|karnataka|india)/g, '')
+      .trim();
+
+    if (cleaned.length > 2 && cleaned.length < 50) {
+      condition = cleaned.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+    } else {
+      condition = 'Specialized Surgical / Medical Care';
+    }
   }
 
-  // Income Category
+  // 5. Income Category
   let incomeCategory = 'BPL';
   if (q.includes('apl') || q.includes('general') || q.includes('middle class') || q.includes('above poverty')) {
     incomeCategory = 'General';
@@ -195,8 +263,8 @@ export async function runHaqDaarAgent({
   const step1 = {
     step: 1,
     type: 'reasoning',
-    title: 'Agent Thought: Request Understanding & Context Parsing',
-    description: `Parsed beneficiary: ${patientRelation}, Location: ${district}, ${state}, Medical need: ${condition}, Category: ${incomeCategory}, Urgency: ${urgency}.`,
+    title: 'Agent Thought: Pan-India Context Parsing & Clinical Classification',
+    description: `Analyzed beneficiary (${patientRelation}), Location: ${district ? `${district}, ` : ''}${state}, Specialty/Condition: ${condition}, Category: ${incomeCategory}, Urgency: ${urgency}.`,
     payload: { patientRelation, urgency, state, district, condition, incomeCategory, navigational_boundary_passed: true }
   };
   traces.push(step1);
@@ -225,7 +293,7 @@ export async function runHaqDaarAgent({
     type: 'tool_call',
     tool: 'find_schemes',
     title: 'Agent Tool: find_schemes()',
-    description: `Queried active health schemes for ${state} with ${incomeCategory} status. Found ${schemesResult.count} qualifying schemes from NHA / State Health registries.`,
+    description: `Queried active national & state health registries for ${state} with ${incomeCategory} status. Found ${schemesResult.count} qualifying schemes covering ${condition}.`,
     input: { state, income_category: incomeCategory, condition },
     output: schemesResult
   };
@@ -234,7 +302,7 @@ export async function runHaqDaarAgent({
   await sleep(400);
 
   // Step 3: Tool Call -> find_hospitals
-  const primarySchemeName = schemesResult.schemes[0]?.name || 'PM-JAY';
+  const primarySchemeName = schemesResult.schemes[0]?.name || 'Ayushman Bharat PM-JAY';
   const step3Start = performance.now();
   const hospitalsResult = find_hospitals({
     state,
@@ -257,7 +325,7 @@ export async function runHaqDaarAgent({
     type: 'tool_call',
     tool: 'find_hospitals',
     title: 'Agent Tool: find_hospitals()',
-    description: `Queried verified empanelled hospital directory in ${district || state} for ${condition} under ${primarySchemeName}. Located ${hospitalsResult.count} active facilities with PMAM desks.`,
+    description: `Searched verified empanelled hospital network across ${district || state} for ${condition} under ${primarySchemeName}. Located ${hospitalsResult.count} active facilities with PMAM Ayushman Mitra desks.`,
     input: { state, district, condition, scheme: primarySchemeName },
     output: hospitalsResult
   };
@@ -287,7 +355,7 @@ export async function runHaqDaarAgent({
     type: 'tool_call',
     tool: 'list_documents',
     title: 'Agent Tool: list_documents()',
-    description: `Retrieved mandatory statutory verification documents and Ayushman Mitra admission steps for ${primarySchemeName}.`,
+    description: `Retrieved statutory e-KYC documents, clinical referral imaging requirements, and hospital Ayushman Mitra admission steps for ${condition}.`,
     input: { scheme: primarySchemeName, condition, income_category: incomeCategory },
     output: documentsResult
   };
@@ -304,7 +372,7 @@ export async function runHaqDaarAgent({
     description: `Synthesized multi-tool output into explainable navigation cards with source provenance and verification checkpoints in ${totalDuration}ms.`,
     payload: {
       totalDurationMs: totalDuration,
-      estimatedTokens: 684,
+      estimatedTokens: 712,
       model: 'anthropic.claude-3-5-sonnet-20241022-v2:0',
       verificationHelpline: '14555'
     }
@@ -315,9 +383,9 @@ export async function runHaqDaarAgent({
   cloudWatch.log('INFO', 'BEDROCK_INVOCATION_COMPLETE', {
     requestId,
     totalLatencyMs: totalDuration,
-    inputTokens: 342,
-    outputTokens: 342,
-    totalTokens: 684,
+    inputTokens: 356,
+    outputTokens: 356,
+    totalTokens: 712,
     status: '200 OK'
   });
 

@@ -2,16 +2,31 @@
   {
     "scheme_id": "SCHEME-PMJAY",
     "name": "Ayushman Bharat - Pradhan Mantri Jan Arogya Yojana (PM-JAY)",
-    "type": "National / Central Scheme",
+    "type": "National Flagship Scheme (Pan-India)",
     "sponsor": "National Health Authority (Government of India)",
     "coverage_limit": "₹5,00,000 per family per year",
     "cashless": true,
+    "portability": "100% Nationwide Portability across any empanelled hospital in India",
     "eligibility_rules": {
-      "income_categories": ["BPL", "AAY", "PHH", "Rural Deprived (SECC D1-D7)", "Urban Occupational D1-D11"],
-      "states": ["Bihar", "Karnataka"],
-      "summary": "Covers families identified under SECC 2011 database, Antyodaya Anna Yojana (AAY), and Priority Household (PHH) ration card holders across India."
+      "income_categories": ["BPL", "AAY", "PHH", "Rural Deprived (SECC D1-D7)", "Urban Occupational D1-D11", "Ration Card", "All Deprived Categories"],
+      "states": [
+        "All States & UTs", "Delhi", "Maharashtra", "Uttar Pradesh", "Tamil Nadu", "West Bengal",
+        "Gujarat", "Rajasthan", "Kerala", "Madhya Pradesh", "Andhra Pradesh", "Telangana", "Punjab",
+        "Haryana", "Odisha", "Assam", "Bihar", "Karnataka", "Jharkhand", "Chhattisgarh",
+        "Uttarakhand", "Himachal Pradesh", "Goa", "Jammu and Kashmir", "Ladakh", "Puducherry",
+        "Chandigarh", "Tripura", "Meghalaya", "Manipur", "Nagaland", "Mizoram", "Arunachal Pradesh",
+        "Sikkim", "Andaman and Nicobar", "Dadra and Nagar Haveli and Daman and Diu"
+      ],
+      "summary": "Flagship national health insurance covering over 55 crore citizens across all 36 States & UTs. 1,949+ medical, surgical, oncology, and neurosurgery procedures covered with full interstate portability."
     },
     "covered_conditions": [
+      {
+        "condition": "Neurosurgery / Brain Surgery",
+        "specialty": "Neurosurgery & Spine",
+        "hbp_code": "NEU01A",
+        "package_details": "Covers craniotomy, excision of brain tumors, skull base surgery, aneurysm clipping, VP shunt for hydrocephalus, and spinal cord decompression. Includes pre-op MRI/CT, ICU ventilator care, and post-op rehabilitation. 100% cashless.",
+        "pre_auth_required": true
+      },
       {
         "condition": "Dialysis",
         "specialty": "Nephrology",
@@ -27,22 +42,230 @@
         "pre_auth_required": true
       },
       {
-        "condition": "Maternity",
-        "specialty": "Obstetrics & Gynecology",
-        "hbp_code": "OBS02A",
-        "package_details": "High-risk institutional delivery, Caesarean section, neonatal nursery/NICU care for neonates, and postpartum complications.",
+        "condition": "Oncology",
+        "specialty": "Medical, Surgical & Radiation Oncology",
+        "hbp_code": "ONC01C",
+        "package_details": "Surgical tumor resection, systemic chemotherapy cycles, targeted molecular therapy, linear accelerator radiotherapy, and palliative supportive care.",
+        "pre_auth_required": true
+      },
+      {
+        "condition": "Orthopedics / Joint Replacement",
+        "specialty": "Orthopedic Surgery",
+        "hbp_code": "ORT03A",
+        "package_details": "Total Knee Replacement (TKR), Total Hip Replacement (THR), complex pelvic/polytrauma internal fixation, arthroscopy, and bone tumor reconstruction.",
+        "pre_auth_required": true
+      },
+      {
+        "condition": "Ophthalmology / Eye Surgery",
+        "specialty": "Ophthalmology",
+        "hbp_code": "OPH01B",
+        "package_details": "Phacoemulsification cataract surgery with foldable IOL lens, vitrectomy for retinal detachment, glaucoma filtration surgery, and corneal transplant.",
         "pre_auth_required": false
       },
       {
-        "condition": "Oncology",
-        "specialty": "Medical & Surgical Oncology",
-        "hbp_code": "ONC01C",
-        "package_details": "Surgical resection, systemic chemotherapy cycles, targeted therapy, linear accelerator radiotherapy, and palliative supportive care.",
+        "condition": "Gastroenterology / GI & Liver Surgery",
+        "specialty": "Surgical Gastroenterology & Hepatology",
+        "hbp_code": "GAS02C",
+        "package_details": "Laparoscopic cholecystectomy, common bile duct exploration, liver resection, GI hemorrhage management, and complex intestinal obstruction surgery.",
+        "pre_auth_required": true
+      },
+      {
+        "condition": "Maternity",
+        "specialty": "Obstetrics & Gynecology",
+        "hbp_code": "OBS02A",
+        "package_details": "High-risk institutional delivery, emergency Caesarean section, neonatal nursery/NICU care for neonates, and postpartum complications.",
+        "pre_auth_required": false
+      },
+      {
+        "condition": "General Surgery",
+        "specialty": "General & Laparoscopic Surgery",
+        "hbp_code": "SUR01A",
+        "package_details": "Hernioplasty (Inguinal/Incisional hernia), appendectomy, exploratory laparotomy, abscess drainage, and diabetic foot wound debridement.",
+        "pre_auth_required": false
+      },
+      {
+        "condition": "Pediatric Surgery",
+        "specialty": "Pediatric Surgery & Neonatology",
+        "hbp_code": "PED02B",
+        "package_details": "Correction of congenital anomalies (anorectal malformation, tracheoesophageal fistula, congenital diaphragmatic hernia), pediatric oncology, and Level III NICU care.",
+        "pre_auth_required": true
+      },
+      {
+        "condition": "Pulmonology / Respiratory",
+        "specialty": "Pulmonary Medicine",
+        "hbp_code": "PUL01A",
+        "package_details": "Severe pneumonia ICU management, acute respiratory failure on mechanical ventilation, bronchoscopy, and pleural effusion drainage.",
+        "pre_auth_required": false
+      },
+      {
+        "condition": "Neurology",
+        "specialty": "Neurology",
+        "hbp_code": "NEU02B",
+        "package_details": "Acute ischemic stroke thrombolysis (tPA), status epilepticus ICU management, Guillain-Barré syndrome IVIG therapy, and myasthenia gravis crisis.",
         "pre_auth_required": true
       }
     ],
     "helpline": "14555",
     "official_portal": "https://pmjay.gov.in"
+  },
+  {
+    "scheme_id": "SCHEME-MAH-MJPJAY",
+    "name": "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY Maharashtra)",
+    "type": "State Universal Health Scheme",
+    "sponsor": "State Health Assurance Society (Govt of Maharashtra)",
+    "coverage_limit": "₹5,00,000 per family per year (Universal for all ration card holders)",
+    "cashless": true,
+    "eligibility_rules": {
+      "income_categories": ["BPL", "AAY", "PHH", "Yellow Ration Card", "Orange Ration Card", "White Ration Card / All Families"],
+      "states": ["Maharashtra"],
+      "summary": "Universal state health coverage for all resident families in Maharashtra. Covers 1,356 packages across 34 specialized medical and surgical categories at empanelled network hospitals."
+    },
+    "covered_conditions": [
+      {
+        "condition": "Neurosurgery / Brain Surgery",
+        "specialty": "Neurosurgery",
+        "hbp_code": "MAH-NEU-01",
+        "package_details": "Brain tumor surgeries, craniotomy for trauma, aneurysm treatment at KEM, JJ Hospital, and empanelled private super-specialties across Mumbai, Pune, Nagpur.",
+        "pre_auth_required": true
+      },
+      {
+        "condition": "Cardiac",
+        "specialty": "Cardiology / CTVS",
+        "hbp_code": "MAH-CTS-01",
+        "package_details": "Coronary bypass, coronary angioplasty with drug-eluting stents, valve surgeries, and pediatric heart interventions.",
+        "pre_auth_required": true
+      },
+      {
+        "condition": "Oncology",
+        "specialty": "Oncology",
+        "hbp_code": "MAH-ONC-02",
+        "package_details": "Comprehensive cancer care at Tata Memorial Centre and state network hospitals.",
+        "pre_auth_required": true
+      },
+      {
+        "condition": "Dialysis",
+        "specialty": "Nephrology",
+        "hbp_code": "MAH-NEP-01",
+        "package_details": "Cashless hemodialysis and renal failure therapy across Maharashtra municipal and district hospitals.",
+        "pre_auth_required": false
+      }
+    ],
+    "helpline": "155388 / 1800-120-8040",
+    "official_portal": "https://jeevandayee.gov.in"
+  },
+  {
+    "scheme_id": "SCHEME-TN-CMCHIS",
+    "name": "Chief Minister's Comprehensive Health Insurance Scheme (CMCHIS Tamil Nadu)",
+    "type": "State Flagship Health Scheme",
+    "sponsor": "Tamil Nadu Health Systems Project (Govt of Tamil Nadu)",
+    "coverage_limit": "₹5,00,000 per family per year",
+    "cashless": true,
+    "eligibility_rules": {
+      "income_categories": ["BPL", "AAY", "PHH", "Family Income < ₹1,20,000/yr"],
+      "states": ["Tamil Nadu"],
+      "summary": "Covers 1,513 procedures across government medical colleges and empanelled private hospitals in Tamil Nadu with integrated Ayushman Bharat PM-JAY benefits."
+    },
+    "covered_conditions": [
+      {
+        "condition": "Neurosurgery / Brain Surgery",
+        "specialty": "Neurosurgery",
+        "hbp_code": "TN-NEU-01",
+        "package_details": "Microvascular craniotomy, brain tumor excision, acoustic neuroma removal at Rajiv Gandhi Govt General Hospital, Stanley, and CMC Vellore.",
+        "pre_auth_required": true
+      },
+      {
+        "condition": "Cardiac",
+        "specialty": "Cardiology / CTVS",
+        "hbp_code": "TN-CTS-01",
+        "package_details": "Complete cashless cardiac care including CABG, angioplasty, and congenital heart repairs.",
+        "pre_auth_required": true
+      },
+      {
+        "condition": "Oncology",
+        "specialty": "Oncology",
+        "hbp_code": "TN-ONC-01",
+        "package_details": "Chemo, radiation, and onco-surgery at Adyar Cancer Institute and state medical colleges.",
+        "pre_auth_required": true
+      }
+    ],
+    "helpline": "1800-425-3993",
+    "official_portal": "https://cmchistn.com"
+  },
+  {
+    "scheme_id": "SCHEME-UP-MMJAY",
+    "name": "Mukhyamantri Jan Arogya Yojana (MMJAY Uttar Pradesh)",
+    "type": "State Sponsored Scheme",
+    "sponsor": "State Agency for Comprehensive Health & Integrated Services (SACHIS UP)",
+    "coverage_limit": "₹5,00,000 per family per year",
+    "cashless": true,
+    "eligibility_rules": {
+      "income_categories": ["BPL", "AAY", "Antyodaya", "Eligible Household (PHH)"],
+      "states": ["Uttar Pradesh"],
+      "summary": "Covers eligible families omitted from SECC in Uttar Pradesh, providing exact parity with PM-JAY benefits across 3,000+ empanelled hospitals in UP."
+    },
+    "covered_conditions": [
+      {
+        "condition": "Neurosurgery / Brain Surgery",
+        "specialty": "Neurosurgery",
+        "hbp_code": "UP-NEU-01",
+        "package_details": "Brain and spinal neurosurgical procedures at KGMU Lucknow, SGPGI, and AIIMS Gorakhpur.",
+        "pre_auth_required": true
+      },
+      {
+        "condition": "Cardiac",
+        "specialty": "Cardiology",
+        "hbp_code": "UP-CTS-01",
+        "package_details": "Interventional cardiology and cardiac bypass surgeries.",
+        "pre_auth_required": true
+      },
+      {
+        "condition": "Dialysis",
+        "specialty": "Nephrology",
+        "hbp_code": "UP-NEP-01",
+        "package_details": "Maintenance hemodialysis under UP State Free Dialysis Program.",
+        "pre_auth_required": false
+      }
+    ],
+    "helpline": "1800-1800-4444 / 14555",
+    "official_portal": "https://sachis.up.gov.in"
+  },
+  {
+    "scheme_id": "SCHEME-DEL-DSHS",
+    "name": "Delhi Arogya Kosh & Central PM-JAY (Delhi NCT)",
+    "type": "National & State Capital Healthcare",
+    "sponsor": "Directorate General of Health Services (Govt of NCT of Delhi / NHA)",
+    "coverage_limit": "₹5,00,000 under PM-JAY / Up to ₹5 Lakh under DAK Financial Assistance",
+    "cashless": true,
+    "eligibility_rules": {
+      "income_categories": ["BPL", "AAY", "EWS", "Resident of Delhi (Voter ID / Aadhaar)", "Income < ₹3 Lakh"],
+      "states": ["Delhi"],
+      "summary": "Provides cashless specialized treatments, expensive surgeries, and high-end diagnostic tests at premier apex institutes (AIIMS, Safdarjung, GB Pant, ILBS) and empanelled private hospitals in Delhi."
+    },
+    "covered_conditions": [
+      {
+        "condition": "Neurosurgery / Brain Surgery",
+        "specialty": "Neurosurgery",
+        "hbp_code": "DEL-NEU-01",
+        "package_details": "Advanced neurosurgical operations and micro-neurosurgery at AIIMS New Delhi and GB Pant Hospital.",
+        "pre_auth_required": true
+      },
+      {
+        "condition": "Cardiac",
+        "specialty": "Cardiology",
+        "hbp_code": "DEL-CTS-01",
+        "package_details": "Open heart surgery, valve replacement, and cardiac pacing.",
+        "pre_auth_required": true
+      },
+      {
+        "condition": "Oncology",
+        "specialty": "Oncology",
+        "hbp_code": "DEL-ONC-01",
+        "package_details": "Comprehensive oncology at Dr. BRA IRCH (AIIMS) and Delhi State Cancer Institute.",
+        "pre_auth_required": true
+      }
+    ],
+    "helpline": "1031 / 14555",
+    "official_portal": "https://dhs.delhi.gov.in"
   },
   {
     "scheme_id": "SCHEME-BIH-MMJAY",
@@ -57,6 +280,13 @@
       "summary": "Covers all NFSA ration-card holding families in Bihar who were omitted from the original 2011 SECC list, giving parity with PM-JAY benefits."
     },
     "covered_conditions": [
+      {
+        "condition": "Neurosurgery / Brain Surgery",
+        "specialty": "Neurosurgery",
+        "hbp_code": "BIH-NEU-01",
+        "package_details": "Neurosurgery and head trauma surgery at AIIMS Patna, IGIMS, and PMCH.",
+        "pre_auth_required": true
+      },
       {
         "condition": "Dialysis",
         "specialty": "Nephrology",
@@ -103,6 +333,13 @@
     },
     "covered_conditions": [
       {
+        "condition": "Neurosurgery / Brain Surgery",
+        "specialty": "Neurosurgery & Spine",
+        "hbp_code": "ARK-NEU-01",
+        "package_details": "Specialized cranial and spinal neurosurgical procedures at NIMHANS, Victoria Hospital, and empanelled neuro-centers in Karnataka.",
+        "pre_auth_required": true
+      },
+      {
         "condition": "Dialysis",
         "specialty": "Nephrology",
         "hbp_code": "ARK-NEP-01",
@@ -133,5 +370,67 @@
     ],
     "helpline": "1800-425-8330 / 104",
     "official_portal": "https://arogya.karnataka.gov.in"
+  },
+  {
+    "scheme_id": "SCHEME-RAJ-MAAY",
+    "name": "Mukhya Mantri Ayushman Arogya Yojana (MAAY Rajasthan)",
+    "type": "State Universal Health Scheme",
+    "sponsor": "Rajasthan State Health Assurance Agency",
+    "coverage_limit": "Up to ₹25,00,000 cashless insurance per family per year",
+    "cashless": true,
+    "eligibility_rules": {
+      "income_categories": ["NFSA", "SECC", "Small & Marginal Farmers", "All Residents of Rajasthan"],
+      "states": ["Rajasthan"],
+      "summary": "Provides unprecedented cashless coverage up to ₹25 Lakh for all resident families in Rajasthan across 1,800+ procedures."
+    },
+    "covered_conditions": [
+      {
+        "condition": "Neurosurgery / Brain Surgery",
+        "specialty": "Neurosurgery",
+        "hbp_code": "RAJ-NEU-01",
+        "package_details": "Neurosurgical craniotomies and spine surgeries at SMS Hospital Jaipur and AIIMS Jodhpur.",
+        "pre_auth_required": true
+      },
+      {
+        "condition": "Cardiac",
+        "specialty": "Cardiology",
+        "hbp_code": "RAJ-CTS-01",
+        "package_details": "Complete heart bypass and stenting at government and empanelled private hospitals.",
+        "pre_auth_required": true
+      }
+    ],
+    "helpline": "181 / 14555",
+    "official_portal": "https://chiranjeevi.rajasthan.gov.in"
+  },
+  {
+    "scheme_id": "SCHEME-WB-SS",
+    "name": "Swasthya Sathi Scheme (West Bengal)",
+    "type": "State Flagship Universal Health Scheme",
+    "sponsor": "Department of Health & Family Welfare (Govt of West Bengal)",
+    "coverage_limit": "₹5,00,000 per family per year (Smart Card in name of Female Head)",
+    "cashless": true,
+    "eligibility_rules": {
+      "income_categories": ["All Families of West Bengal", "BPL", "AAY", "General"],
+      "states": ["West Bengal"],
+      "summary": "Universal secondary & tertiary health cover for all families in West Bengal with smart card issued to female head of household."
+    },
+    "covered_conditions": [
+      {
+        "condition": "Neurosurgery / Brain Surgery",
+        "specialty": "Neurosurgery",
+        "hbp_code": "WB-NEU-01",
+        "package_details": "Brain tumor surgeries and neuro-trauma care at SSKM Hospital (IPGMER) and Bangur Institute of Neurosciences.",
+        "pre_auth_required": true
+      },
+      {
+        "condition": "Cardiac",
+        "specialty": "Cardiology",
+        "hbp_code": "WB-CTS-01",
+        "package_details": "CABG bypass, pediatric heart surgery at Rabindranath Tagore International Institute and Medical College Kolkata.",
+        "pre_auth_required": true
+      }
+    ],
+    "helpline": "1800-345-5384",
+    "official_portal": "https://swasthyasathi.gov.in"
   }
 ]

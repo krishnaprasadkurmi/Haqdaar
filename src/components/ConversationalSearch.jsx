@@ -127,21 +127,50 @@ export default function ConversationalSearch({
 
   const examplePrompts = [
     {
+      title: 'Brain Surgery (NIMHANS / AIIMS)',
+      text: 'Patient needs brain surgery for cranial tumor in Bengaluru or Delhi. Which empanelled hospital provides cashless neurosurgery under PM-JAY?'
+    },
+    {
+      title: 'Knee Replacement in Mumbai',
+      text: 'My mother needs bilateral knee replacement surgery in Mumbai. We hold a ration card. Which hospital covers it cashless under MJPJAY / PM-JAY?'
+    },
+    {
+      title: 'Heart Bypass in Lucknow',
+      text: 'Father needs coronary heart bypass (CABG) surgery in Lucknow, UP. We have a BPL card. What documents are needed for cashless admission?'
+    },
+    {
       title: 'Dialysis in Patna (BPL)',
-      text: 'My father needs regular dialysis in Patna, Bihar. We hold a BPL ration card. Where is it cashless and what papers do we carry?'
+      text: 'My father needs maintenance dialysis in Patna, Bihar. We hold a BPL ration card. Where is it cashless and what papers do we carry?'
     },
     {
-      title: 'Cardiac Surgery in Bengaluru',
-      text: 'Patient in Bengaluru needs heart bypass surgery. We have a BPL card. Does Arogya Karnataka / PM-JAY cover Jayadeva Institute?'
-    },
-    {
-      title: 'Maternity in Gaya',
-      text: 'Emergency C-section delivery needed in Gaya, Bihar. Family has a state ration card. Where is the nearest empanelled hospital?'
-    },
-    {
-      title: 'Cancer Chemo in Bengaluru',
-      text: 'Family member requires chemotherapy in Bengaluru. Is Kidwai empanelled for free oncology under PM-JAY and what papers do we carry?'
+      title: 'Eye Cataract in Chennai',
+      text: 'Elderly relative requires cataract eye surgery in Chennai, Tamil Nadu with CMCHIS / PM-JAY card.'
     }
+  ];
+
+  const ALL_INDIAN_STATES = [
+    'All India', 'Delhi', 'Maharashtra', 'Karnataka', 'Tamil Nadu', 'Uttar Pradesh',
+    'West Bengal', 'Gujarat', 'Rajasthan', 'Kerala', 'Madhya Pradesh', 'Andhra Pradesh',
+    'Telangana', 'Punjab', 'Haryana', 'Odisha', 'Assam', 'Bihar', 'Jharkhand',
+    'Chhattisgarh', 'Uttarakhand', 'Himachal Pradesh', 'Goa', 'Jammu and Kashmir',
+    'Chandigarh', 'Puducherry', 'Tripura', 'Meghalaya', 'Manipur', 'Nagaland', 'Mizoram',
+    'Arunachal Pradesh', 'Sikkim'
+  ];
+
+  const MEDICAL_SPECIALTIES = [
+    'Neurosurgery / Brain Surgery',
+    'Orthopedics / Joint Replacement',
+    'Cardiac',
+    'Oncology',
+    'Dialysis',
+    'Ophthalmology / Eye Surgery',
+    'Gastroenterology / GI & Liver Surgery',
+    'Maternity',
+    'General Surgery',
+    'Pediatric Surgery',
+    'Pulmonology / Respiratory',
+    'Neurology',
+    'ENT / Head-Neck Surgery'
   ];
 
   return (
@@ -291,19 +320,33 @@ export default function ConversationalSearch({
                 <span>{getTranslation(lang, 'labelCondition')}</span>
               </div>
               {isEditing ? (
-                <select
-                  value={selectedParams.condition}
-                  onChange={(e) => {
-                    setSelectedParams({ ...selectedParams, condition: e.target.value });
-                    setExtractedState({ ...extractedState, condition: e.target.value });
-                  }}
-                  className="w-full bg-slate-900 border border-white/20 rounded px-2 py-1 text-xs text-white"
-                >
-                  <option value="Dialysis">Dialysis (Nephrology)</option>
-                  <option value="Cardiac">Cardiac Surgery (Heart)</option>
-                  <option value="Maternity">Maternity & Delivery (Obs/Gyn)</option>
-                  <option value="Oncology">Oncology (Cancer Care)</option>
-                </select>
+                <div className="space-y-1.5">
+                  <select
+                    value={MEDICAL_SPECIALTIES.includes(selectedParams.condition) ? selectedParams.condition : 'Other'}
+                    onChange={(e) => {
+                      if (e.target.value !== 'Other') {
+                        setSelectedParams({ ...selectedParams, condition: e.target.value });
+                        setExtractedState({ ...extractedState, condition: e.target.value });
+                      }
+                    }}
+                    className="w-full bg-slate-900 border border-white/20 rounded px-2 py-1 text-xs text-white"
+                  >
+                    {MEDICAL_SPECIALTIES.map((spec) => (
+                      <option key={spec} value={spec}>{spec}</option>
+                    ))}
+                    <option value="Other">Other / Custom Condition...</option>
+                  </select>
+                  <input
+                    type="text"
+                    value={selectedParams.condition}
+                    onChange={(e) => {
+                      setSelectedParams({ ...selectedParams, condition: e.target.value });
+                      setExtractedState({ ...extractedState, condition: e.target.value });
+                    }}
+                    placeholder="Type any condition or surgery..."
+                    className="w-full bg-slate-900 border border-white/20 rounded px-2 py-1 text-xs text-white focus:border-emerald-400"
+                  />
+                </div>
               ) : (
                 <div className="text-sm font-bold text-white">{selectedParams.condition}</div>
               )}
@@ -313,7 +356,7 @@ export default function ConversationalSearch({
             <div className="p-3.5 rounded-xl bg-slate-950/60 border border-white/10">
               <div className="flex items-center gap-2 text-xs text-slate-400 mb-1">
                 <MapPin size={14} className="text-emerald-400" />
-                <span>Location</span>
+                <span>Location (State & District)</span>
               </div>
               {isEditing ? (
                 <div className="space-y-1.5">
@@ -321,41 +364,29 @@ export default function ConversationalSearch({
                     value={selectedParams.state}
                     onChange={(e) => {
                       const st = e.target.value;
-                      const dist = st === 'Bihar' ? 'Patna' : 'Bengaluru Urban';
-                      setSelectedParams({ ...selectedParams, state: st, district: dist });
-                      setExtractedState({ ...extractedState, state: st, district: dist });
+                      setSelectedParams({ ...selectedParams, state: st });
+                      setExtractedState({ ...extractedState, state: st });
                     }}
                     className="w-full bg-slate-900 border border-white/20 rounded px-2 py-1 text-xs text-white"
                   >
-                    <option value="Bihar">Bihar</option>
-                    <option value="Karnataka">Karnataka</option>
+                    {ALL_INDIAN_STATES.map((st) => (
+                      <option key={st} value={st}>{st}</option>
+                    ))}
                   </select>
-                  <select
-                    value={selectedParams.district}
+                  <input
+                    type="text"
+                    value={selectedParams.district || ''}
                     onChange={(e) => {
                       setSelectedParams({ ...selectedParams, district: e.target.value });
                       setExtractedState({ ...extractedState, district: e.target.value });
                     }}
-                    className="w-full bg-slate-900 border border-white/20 rounded px-2 py-1 text-xs text-white"
-                  >
-                    {selectedParams.state === 'Bihar' ? (
-                      <>
-                        <option value="Patna">Patna</option>
-                        <option value="Gaya">Gaya</option>
-                        <option value="Muzaffarpur">Muzaffarpur</option>
-                      </>
-                    ) : (
-                      <>
-                        <option value="Bengaluru Urban">Bengaluru Urban</option>
-                        <option value="Mysuru">Mysuru</option>
-                        <option value="Hubballi">Hubballi</option>
-                      </>
-                    )}
-                  </select>
+                    placeholder="City or District (e.g. Mumbai, Patna, Bengaluru, Delhi)..."
+                    className="w-full bg-slate-900 border border-white/20 rounded px-2 py-1 text-xs text-white focus:border-emerald-400"
+                  />
                 </div>
               ) : (
                 <div className="text-sm font-bold text-white">
-                  {selectedParams.district}, {selectedParams.state}
+                  {selectedParams.district ? `${selectedParams.district}, ` : ''}{selectedParams.state}
                 </div>
               )}
             </div>

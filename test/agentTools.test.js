@@ -84,6 +84,34 @@ describe('HaqDaar Agent Tools', () => {
       expect(result.status).toBe('EMERGENCY_INTERCEPTED');
       expect(result.emergency_guidance).toContain('108');
     });
+
+    it('correctly extracts brain surgery and maps to Neurosurgery package', async () => {
+      const { extractEntitiesFromQuery, runHaqDaarAgent } = await import('../src/agent/agentRunner.js');
+      const extracted = extractEntitiesFromQuery('brain surgery in Delhi for my mother with BPL card');
+      expect(extracted.condition).toBe('Neurosurgery / Brain Surgery');
+      expect(extracted.state).toBe('Delhi');
+
+      const result = await runHaqDaarAgent({ query: 'brain surgery in Delhi for my mother' });
+      expect(result.status).toBe('SUCCESS');
+      expect(result.schemes.length).toBeGreaterThanOrEqual(1);
+      expect(result.hospitals.some(h => h.name.includes('AIIMS'))).toBe(true);
+    });
+
+    it('finds apex neuro-institutes like NIMHANS for brain surgery in Bengaluru', () => {
+      const result = find_hospitals({ state: 'Karnataka', district: 'Bengaluru Urban', condition: 'Neurosurgery / Brain Surgery' });
+      expect(result.status).toBe('SUCCESS');
+      const nimhans = result.hospitals.find(h => h.name.includes('NIMHANS'));
+      expect(nimhans).toBeDefined();
+    });
+
+    it('supports Pan-India state schemes (Maharashtra MJPJAY, UP MMJAY, PM-JAY)', () => {
+      const resultMah = find_schemes({ state: 'Maharashtra', income_category: 'BPL', condition: 'Cardiac' });
+      expect(resultMah.schemes.some(s => s.name.includes('MJPJAY') || s.name.includes('PM-JAY'))).toBe(true);
+
+      const resultUP = find_schemes({ state: 'Uttar Pradesh', income_category: 'BPL', condition: 'Neurosurgery / Brain Surgery' });
+      expect(resultUP.schemes.some(s => s.name.includes('PM-JAY'))).toBe(true);
+    });
   });
 });
+
 

@@ -11,16 +11,35 @@ export default function QueryBar({
 }) {
   const [showFilters, setShowFilters] = useState(false);
 
-  const districtsByState = {
-    Bihar: ['Patna', 'Gaya', 'Muzaffarpur'],
-    Karnataka: ['Bengaluru Urban', 'Mysuru', 'Hubballi']
-  };
+  const ALL_INDIAN_STATES = [
+    'All India', 'Delhi', 'Maharashtra', 'Karnataka', 'Tamil Nadu', 'Uttar Pradesh',
+    'West Bengal', 'Gujarat', 'Rajasthan', 'Kerala', 'Madhya Pradesh', 'Andhra Pradesh',
+    'Telangana', 'Punjab', 'Haryana', 'Odisha', 'Assam', 'Bihar', 'Jharkhand',
+    'Chhattisgarh', 'Uttarakhand', 'Himachal Pradesh', 'Goa', 'Jammu and Kashmir',
+    'Chandigarh', 'Puducherry'
+  ];
+
+  const ALL_CONDITIONS = [
+    'Neurosurgery / Brain Surgery',
+    'Orthopedics / Joint Replacement',
+    'Cardiac',
+    'Oncology',
+    'Dialysis',
+    'Ophthalmology / Eye Surgery',
+    'Gastroenterology / GI & Liver Surgery',
+    'Maternity',
+    'General Surgery',
+    'Pediatric Surgery',
+    'Pulmonology / Respiratory',
+    'Neurology',
+    'ENT / Head-Neck Surgery'
+  ];
 
   const handleStateChange = (state) => {
     setSelectedParams((prev) => ({
       ...prev,
       state,
-      district: districtsByState[state][0]
+      district: state === 'All India' ? 'National Network' : state === 'Maharashtra' ? 'Mumbai' : state === 'Delhi' ? 'New Delhi' : state === 'Tamil Nadu' ? 'Chennai' : state === 'Karnataka' ? 'Bengaluru Urban' : 'District Center'
     }));
   };
 
@@ -43,7 +62,7 @@ export default function QueryBar({
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Ask in plain language: e.g. My father needs dialysis in Patna with a BPL card..."
+            placeholder="Ask in plain language: e.g. Brain surgery in Delhi, knee replacement in Mumbai, dialysis in Patna..."
             className="w-full bg-transparent text-white placeholder-slate-400 text-sm sm:text-base px-2 py-2.5 focus:outline-none"
             disabled={isLoading}
           />
@@ -87,15 +106,16 @@ export default function QueryBar({
             {/* State */}
             <div>
               <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1.5 flex items-center gap-1">
-                <MapPin size={12} className="text-emerald-400" /> State
+                <MapPin size={12} className="text-emerald-400" /> State / Region
               </label>
               <select
                 value={selectedParams.state}
                 onChange={(e) => handleStateChange(e.target.value)}
                 className="w-full bg-slate-900 border border-white/15 rounded-lg px-3 py-2 text-xs text-white focus:border-emerald-400"
               >
-                <option value="Bihar">Bihar (Patna, Gaya, etc.)</option>
-                <option value="Karnataka">Karnataka (Bengaluru, Mysuru)</option>
+                {ALL_INDIAN_STATES.map((st) => (
+                  <option key={st} value={st}>{st}</option>
+                ))}
               </select>
             </div>
 
@@ -104,33 +124,28 @@ export default function QueryBar({
               <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1.5 flex items-center gap-1">
                 <Building size={12} className="text-amber-400" /> District / City
               </label>
-              <select
-                value={selectedParams.district}
+              <input
+                type="text"
+                value={selectedParams.district || ''}
                 onChange={(e) => setSelectedParams({ ...selectedParams, district: e.target.value })}
+                placeholder="District or City..."
                 className="w-full bg-slate-900 border border-white/15 rounded-lg px-3 py-2 text-xs text-white focus:border-emerald-400"
-              >
-                {districtsByState[selectedParams.state]?.map((d) => (
-                  <option key={d} value={d}>
-                    {d}
-                  </option>
-                ))}
-              </select>
+              />
             </div>
 
             {/* Medical Specialty / Condition */}
             <div>
               <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1.5 flex items-center gap-1">
-                <Activity size={12} className="text-sky-400" /> Condition (In Scope)
+                <Activity size={12} className="text-sky-400" /> Condition / Specialty
               </label>
               <select
                 value={selectedParams.condition}
                 onChange={(e) => setSelectedParams({ ...selectedParams, condition: e.target.value })}
                 className="w-full bg-slate-900 border border-white/15 rounded-lg px-3 py-2 text-xs text-white focus:border-emerald-400"
               >
-                <option value="Dialysis">Dialysis (Nephrology)</option>
-                <option value="Cardiac">Cardiac (Cardiology & Surgery)</option>
-                <option value="Maternity">Maternity (Institutional Delivery)</option>
-                <option value="Oncology">Oncology (Cancer Treatment)</option>
+                {ALL_CONDITIONS.map((cond) => (
+                  <option key={cond} value={cond}>{cond}</option>
+                ))}
               </select>
             </div>
 

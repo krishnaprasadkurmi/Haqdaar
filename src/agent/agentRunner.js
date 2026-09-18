@@ -269,7 +269,7 @@ export async function runHaqDaarAgent({
   };
   traces.push(step1);
   onStepUpdate([...traces]);
-  await sleep(350);
+  await sleep(650);
 
   // Step 2: Tool Call -> find_schemes
   const step2Start = performance.now();
@@ -299,7 +299,7 @@ export async function runHaqDaarAgent({
   };
   traces.push(step2);
   onStepUpdate([...traces]);
-  await sleep(400);
+  await sleep(750);
 
   // Step 3: Tool Call -> find_hospitals
   const primarySchemeName = schemesResult.schemes[0]?.name || 'Ayushman Bharat PM-JAY';
@@ -331,7 +331,7 @@ export async function runHaqDaarAgent({
   };
   traces.push(step3);
   onStepUpdate([...traces]);
-  await sleep(400);
+  await sleep(750);
 
   // Step 4: Tool Call -> list_documents
   const step4Start = performance.now();
@@ -361,7 +361,7 @@ export async function runHaqDaarAgent({
   };
   traces.push(step4);
   onStepUpdate([...traces]);
-  await sleep(350);
+  await sleep(700);
 
   // Step 5: Final Explainable Synthesis
   const totalDuration = Math.round(performance.now() - startTime);
@@ -379,6 +379,7 @@ export async function runHaqDaarAgent({
   };
   traces.push(step5);
   onStepUpdate([...traces]);
+  await sleep(900);
 
   cloudWatch.log('INFO', 'BEDROCK_INVOCATION_COMPLETE', {
     requestId,

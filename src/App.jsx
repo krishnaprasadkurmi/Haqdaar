@@ -10,6 +10,7 @@ import PreSubmitModal from './components/PreSubmitModal';
 import AuthModal from './components/AuthModal';
 import CitizenDashboard from './components/CitizenDashboard';
 import ConversationalSearch from './components/ConversationalSearch';
+import HaqDaarAILoader from './components/HaqDaarAILoader';
 import { runHaqDaarAgent } from './agent/agentRunner';
 import { authService } from './services/authService';
 import { storageService } from './services/storageService';
@@ -231,7 +232,14 @@ export default function App() {
               isLoading={isLoading}
             />
 
-            {/* 5. Visible Agent Loop Trace Inspector (§03, §04 Proof) */}
+            {/* 5. 3D Holographic AI Experience during agent run */}
+            {isLoading && (
+              <div className="max-w-4xl mx-auto px-4 mb-8">
+                <HaqDaarAILoader isLoading={isLoading} traces={traces} lang={lang} />
+              </div>
+            )}
+
+            {/* Visible Agent Loop Trace Inspector (§03, §04 Proof) */}
             <AgentTraceInspector traces={traces} isRunning={isLoading} />
 
             {/* 6. Structured Output: Scheme + Hospitals + Checklist */}

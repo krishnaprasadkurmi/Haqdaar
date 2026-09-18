@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import { extractEntitiesFromQuery, checkForEmergency } from '../agent/agentRunner';
 import { getTranslation } from '../services/i18n';
+import HaqDaarAILoader from './HaqDaarAILoader';
 
 export default function ConversationalSearch({
   query,
@@ -118,10 +119,20 @@ export default function ConversationalSearch({
     });
   };
 
-  // Reset to input when loading finishes
+  // Sync running step with isLoading
+  useEffect(() => {
+    if (isLoading && step !== 'running') {
+      setStep('running');
+    }
+  }, [isLoading, step]);
+
+  // Reset to input when loading finishes with brief completion display
   useEffect(() => {
     if (!isLoading && step === 'running') {
-      setStep('input');
+      const timer = setTimeout(() => {
+        setStep('input');
+      }, 950);
+      return () => clearTimeout(timer);
     }
   }, [isLoading, step]);
 
@@ -455,70 +466,15 @@ export default function ConversationalSearch({
         </div>
       )}
 
-      {/* SCREEN 3: AGENTIC PROCESSING TRACE per §06 */}
+      {/* SCREEN 3: REAL-TIME 3D HOLOGRAPHIC AI EXPERIENCE */}
       {step === 'running' && (
-        <div className="glass-panel p-6 sm:p-8 shadow-2xl border-emerald-500/30 bg-slate-950/95 animate-pulse-subtle">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="p-2.5 rounded-xl bg-emerald-500/20 text-emerald-400">
-              <RefreshCw size={22} className="animate-spin" />
-            </div>
-            <div>
-              <h3 className="text-lg font-bold text-white font-heading">
-                HaqDaar Agentic Loop Executing...
-              </h3>
-              <p className="text-xs text-slate-400">
-                Querying verified government scheme tables, empanelled hospitals, and document registries.
-              </p>
-            </div>
-          </div>
-
-          {/* Progressive Step Sequence */}
-          <div className="space-y-3">
-            {[
-              { step: 1, title: 'Understand Request', desc: 'Validating navigational bounds & patient context' },
-              { step: 2, title: 'Search Schemes', desc: 'Querying NHA PM-JAY & State Health tables' },
-              { step: 3, title: 'Find Hospitals', desc: 'Filtering empanelled facilities with Ayushman Mitra desks' },
-              { step: 4, title: 'Prepare Checklist', desc: 'Retrieving required statutory photo identity & referral papers' },
-              { step: 5, title: 'Generate Explanation', desc: 'Synthesizing verified dossier with safety safeguards' }
-            ].map((item) => {
-              const traceStep = traces.find(t => t.step === item.step);
-              const isCompleted = !!traceStep;
-              const isCurrent = traces.length === item.step - 1;
-
-              return (
-                <div
-                  key={item.step}
-                  className={`flex items-start gap-3 p-3 rounded-xl border transition-all ${
-                    isCompleted
-                      ? 'bg-emerald-950/20 border-emerald-500/40 text-emerald-300'
-                      : isCurrent
-                      ? 'bg-amber-950/20 border-amber-500/40 text-amber-300'
-                      : 'bg-white/5 border-white/10 text-slate-400'
-                  }`}
-                >
-                  <div className="mt-0.5">
-                    {isCompleted ? (
-                      <CheckCircle2 size={16} className="text-emerald-400" />
-                    ) : isCurrent ? (
-                      <RefreshCw size={16} className="animate-spin text-amber-400" />
-                    ) : (
-                      <div className="w-4 h-4 rounded-full border border-slate-600 flex items-center justify-center text-[10px]">
-                        {item.step}
-                      </div>
-                    )}
-                  </div>
-                  <div className="flex-1">
-                    <div className="text-xs font-bold text-white flex items-center justify-between">
-                      <span>{item.title}</span>
-                      {isCompleted && <span className="text-[10px] text-emerald-400 font-mono">DONE</span>}
-                    </div>
-                    <div className="text-[11px] text-slate-400">{item.desc}</div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
+        <HaqDaarAILoader
+          isLoading={isLoading}
+          traces={traces}
+          lang={lang}
+          onRetry={() => setStep('input')}
+          onComplete={() => setStep('input')}
+        />
       )}
     </div>
   );

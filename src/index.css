@@ -251,3 +251,38 @@ input, select, textarea {
   color: #E2E8F0;
   word-break: break-word;
 }
+
+/* Print Styles for PDF / Slip Export (§07 & §10) */
+@media print {
+  body {
+    background-color: #FFFFFF !important;
+    background-image: none !important;
+    color: #0F172A !important;
+  }
+
+  /* Hide navigation, modals, and non-printable elements */
+  nav, .disclaimer-banner, footer, button, select, input, .badge-aws {
+    display: none !important;
+  }
+
+  .glass-panel, .glass-panel-interactive {
+    background: #FFFFFF !important;
+    border: 1px solid #CBD5E1 !important;
+    box-shadow: none !important;
+    color: #0F172A !important;
+    page-break-inside: avoid;
+  }
+
+  h1, h2, h3, h4 {
+    color: #0F172A !important;
+  }
+
+  p, span, div {
+    color: #334155 !important;
+  }
+
+  .badge {
+    border: 1px solid #94A3B8 !important;
+    color: #0F172A !important;
+  }
+}

@@ -7,10 +7,28 @@ import AgentTraceInspector from './components/AgentTraceInspector';
 import ResultsView from './components/ResultsView';
 import AwsInspectorModal from './components/AwsInspectorModal';
 import PreSubmitModal from './components/PreSubmitModal';
+import AuthModal from './components/AuthModal';
+import CitizenDashboard from './components/CitizenDashboard';
+import ConversationalSearch from './components/ConversationalSearch';
 import { runHaqDaarAgent } from './agent/agentRunner';
-import { ShieldCheck, ExternalLink } from 'lucide-react';
+import { authService } from './services/authService';
+import { storageService } from './services/storageService';
+import { ShieldCheck, ExternalLink, Sliders } from 'lucide-react';
 
 export default function App() {
+  // Mode: 'citizen' (simple, mobile-first, citizen workflow) vs 'demo' (judges, full trace & AWS proof)
+  const [mode, setMode] = useState('citizen');
+  const [lang, setLang] = useState('en');
+
+  // Authentication & Session
+  const [currentUser, setCurrentUser] = useState(null);
+  const [authModalOpen, setAuthModalOpen] = useState(false);
+  const [initialAuthView, setInitialAuthView] = useState('login');
+
+  // Citizen Dashboard active tab
+  const [activeCitizenTab, setActiveCitizenTab] = useState('home');
+
+  // Search State
   const [query, setQuery] = useState(
     'My father needs maintenance dialysis in Patna, Bihar. We hold a BPL ration card. Which empanelled hospital provides cashless treatment and what documents are needed?'
   );
@@ -29,7 +47,16 @@ export default function App() {
   const [isAwsModalOpen, setIsAwsModalOpen] = useState(false);
   const [isChecklistModalOpen, setIsChecklistModalOpen] = useState(false);
 
-  // Auto-run primary scenario on initial load so the page is immediately populated for judges / demo
+  // Initialize session & load user
+  useEffect(() => {
+    const user = authService.getCurrentUser();
+    if (user) {
+      setCurrentUser(user);
+      if (user.preferredLanguage) setLang(user.preferredLanguage);
+    }
+  }, []);
+
+  // Auto-run primary scenario on initial load so demo and results are immediately populated
   useEffect(() => {
     executeAgentRun(query, selectedParams);
   }, []);
@@ -48,6 +75,18 @@ export default function App() {
         }
       });
       setResult(agentResult);
+
+      // Save to user's search history
+      if (agentResult && agentResult.status === 'SUCCESS') {
+        const userId = currentUser ? currentUser.id : 'guest';
+        storageService.saveSearch(userId, {
+          query: currentQuery,
+          state: paramsToUse.state,
+          district: paramsToUse.district,
+          condition: paramsToUse.condition,
+          incomeCategory: paramsToUse.incomeCategory
+        });
+      }
     } catch (error) {
       console.error('Agent execution error:', error);
     } finally {
@@ -73,44 +112,139 @@ export default function App() {
     executeAgentRun(query, selectedParams);
   };
 
+  const handleConversationalSearch = (searchQuery, extractedParams) => {
+    setQuery(searchQuery);
+    setSelectedParams({
+      state: extractedParams.state,
+      district: extractedParams.district,
+      condition: extractedParams.condition,
+      incomeCategory: extractedParams.incomeCategory
+    });
+    executeAgentRun(searchQuery, extractedParams);
+  };
+
+  const handleOpenAuth = (view = 'login') => {
+    setInitialAuthView(view);
+    setAuthModalOpen(true);
+  };
+
+  const handleLogout = () => {
+    authService.logout();
+    setCurrentUser(null);
+  };
+
+  const handleAuthSuccess = (user) => {
+    setCurrentUser(user);
+    if (user.preferredLanguage) setLang(user.preferredLanguage);
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-[#070B14] text-slate-100 selection:bg-emerald-500 selection:text-slate-950">
       {/* 1. Persistent UI Line (§03 Requirement) */}
       <DisclaimerBanner />
 
-      {/* 2. Top Navigation */}
+      {/* 2. Top Navigation with Mode Toggle & Language Selector */}
       <Navbar
+        mode={mode}
+        onToggleMode={(newMode) => setMode(newMode)}
+        currentUser={currentUser}
+        onOpenAuthModal={handleOpenAuth}
+        onLogout={handleLogout}
         onOpenAwsModal={() => setIsAwsModalOpen(true)}
         onOpenChecklistModal={() => setIsChecklistModalOpen(true)}
+        lang={lang}
+        onLanguageChange={(newLang) => setLang(newLang)}
       />
 
       {/* Main Content Area */}
       <main className="flex-1">
-        {/* 3. Hero Pitch & Quick Scenario Selectors */}
-        <HeroSection
-          onSelectScenario={handleScenarioSelect}
-          activeScenarioId={activeScenarioId}
-        />
+        {/* CITIZEN MODE WORKFLOW (§05, §06, §07) */}
+        {mode === 'citizen' && (
+          <div>
+            {/* Citizen Dashboard Header Tabs */}
+            <CitizenDashboard
+              currentUser={currentUser}
+              activeTab={activeCitizenTab}
+              setActiveTab={setActiveCitizenTab}
+              onStartNewSearch={(newQuery) => {
+                setQuery(newQuery);
+                setActiveCitizenTab('search');
+              }}
+              onSelectSavedSearch={(searchEntry) => {
+                setQuery(searchEntry.query);
+                const params = {
+                  state: searchEntry.state,
+                  district: searchEntry.district,
+                  condition: searchEntry.condition,
+                  incomeCategory: searchEntry.incomeCategory
+                };
+                setSelectedParams(params);
+                setActiveCitizenTab('search');
+                executeAgentRun(searchEntry.query, params);
+              }}
+              lang={lang}
+              onLanguageChange={(newLang) => setLang(newLang)}
+            />
 
-        {/* 4. Query Input & Guided Controls */}
-        <QueryBar
-          query={query}
-          setQuery={setQuery}
-          selectedParams={selectedParams}
-          setSelectedParams={setSelectedParams}
-          onRunQuery={handleManualRun}
-          isLoading={isLoading}
-        />
+            {/* Conversational Search (Visible on Home or Search tab) */}
+            {(activeCitizenTab === 'home' || activeCitizenTab === 'search') && (
+              <>
+                <ConversationalSearch
+                  query={query}
+                  setQuery={setQuery}
+                  selectedParams={selectedParams}
+                  setSelectedParams={setSelectedParams}
+                  onExecuteSearch={handleConversationalSearch}
+                  isLoading={isLoading}
+                  traces={traces}
+                  lang={lang}
+                />
 
-        {/* 5. Visible Agent Loop Trace Inspector (§03, §04 Proof) */}
-        <AgentTraceInspector traces={traces} isRunning={isLoading} />
+                {/* Structured Output: Schemes, Empanelled Hospitals & Checklist */}
+                <ResultsView result={result} currentUser={currentUser} />
+              </>
+            )}
+          </div>
+        )}
 
-        {/* 6. Structured Output: Scheme + Hospitals + Checklist */}
-        <ResultsView result={result} />
+        {/* JUDGE / DEMO MODE WORKFLOW (§13) */}
+        {mode === 'demo' && (
+          <div>
+            {/* Mode Banner Indicator */}
+            <div className="bg-indigo-950/40 border-b border-indigo-500/20 py-2 px-4 text-center text-xs text-indigo-300 flex items-center justify-center gap-2">
+              <Sliders size={13} className="text-indigo-400" />
+              <span>
+                <strong>Judge / Demo Mode Active:</strong> Full agent trace loop, AWS Bedrock status, DynamoDB queries, and evaluation metrics exposed.
+              </span>
+            </div>
+
+            {/* 3. Hero Pitch & Quick Scenario Selectors */}
+            <HeroSection
+              onSelectScenario={handleScenarioSelect}
+              activeScenarioId={activeScenarioId}
+            />
+
+            {/* 4. Query Input & Guided Controls */}
+            <QueryBar
+              query={query}
+              setQuery={setQuery}
+              selectedParams={selectedParams}
+              setSelectedParams={setSelectedParams}
+              onRunQuery={handleManualRun}
+              isLoading={isLoading}
+            />
+
+            {/* 5. Visible Agent Loop Trace Inspector (§03, §04 Proof) */}
+            <AgentTraceInspector traces={traces} isRunning={isLoading} />
+
+            {/* 6. Structured Output: Scheme + Hospitals + Checklist */}
+            <ResultsView result={result} currentUser={currentUser} />
+          </div>
+        )}
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-white/10 bg-slate-950/80 py-8 px-4 text-xs text-slate-400">
+      <footer className="border-t border-white/10 bg-slate-950/80 py-8 px-4 text-xs text-slate-400 print:hidden">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
           <div>
             <div className="flex items-center justify-center md:justify-start gap-2 text-white font-bold text-sm mb-1 font-heading">
@@ -160,6 +294,13 @@ export default function App() {
       <PreSubmitModal
         isOpen={isChecklistModalOpen}
         onClose={() => setIsChecklistModalOpen(false)}
+      />
+
+      <AuthModal
+        isOpen={authModalOpen}
+        onClose={() => setAuthModalOpen(false)}
+        initialView={initialAuthView}
+        onAuthSuccess={handleAuthSuccess}
       />
     </div>
   );

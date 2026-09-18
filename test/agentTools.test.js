@@ -56,4 +56,34 @@ describe('HaqDaar Agent Tools', () => {
       expect(result.instructions.length).toBeGreaterThan(0);
     });
   });
+
+  describe('extractEntitiesFromQuery() and Safety Guardrails', () => {
+    it('correctly extracts patient relation, state, district, condition, and income', async () => {
+      const { extractEntitiesFromQuery } = await import('../src/agent/agentRunner.js');
+      const query = 'My father needs regular dialysis in Patna, Bihar. We hold a BPL ration card.';
+      const extracted = extractEntitiesFromQuery(query);
+
+      expect(extracted.patientRelation).toBe('Father');
+      expect(extracted.state).toBe('Bihar');
+      expect(extracted.district).toBe('Patna');
+      expect(extracted.condition).toBe('Dialysis');
+      expect(extracted.incomeCategory).toBe('BPL');
+    });
+
+    it('detects emergency cardiac and chest pain symptoms', async () => {
+      const { checkForEmergency } = await import('../src/agent/agentRunner.js');
+      expect(checkForEmergency('Patient is having severe chest pain and heart attack symptoms')).toBe(true);
+      expect(checkForEmergency('Regular dialysis consultation in Patna')).toBe(false);
+    });
+
+    it('intercepts emergency queries with 108/112 guidance', async () => {
+      const { runHaqDaarAgent } = await import('../src/agent/agentRunner.js');
+      const result = await runHaqDaarAgent({
+        query: 'Emergency heart attack with severe chest pain in Bengaluru'
+      });
+      expect(result.status).toBe('EMERGENCY_INTERCEPTED');
+      expect(result.emergency_guidance).toContain('108');
+    });
+  });
 });
+

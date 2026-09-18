@@ -139,7 +139,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#070B14] text-slate-100 selection:bg-emerald-500 selection:text-slate-950">
+    <div className="min-h-screen flex flex-col bg-[#070B14] text-slate-100 selection:bg-emerald-500 selection:text-slate-950" style={{position:'relative'}}>
       {/* 1. Top Navigation with Mode Toggle & Language Selector */}
       <Navbar
         mode={mode}
@@ -239,48 +239,51 @@ export default function App() {
           </div>
         )}
 
-        {/* Informational Guidance & Safety Notice Card */}
-        <DisclaimerBanner />
       </main>
 
       {/* Footer */}
       <footer className="border-t border-white/10 bg-slate-950/80 py-8 px-4 text-xs text-slate-400 print:hidden">
-        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
-          <div>
-            <div className="flex items-center justify-center md:justify-start gap-2 text-white font-bold text-sm mb-1 font-heading">
-              <ShieldCheck className="text-emerald-400" size={18} />
-              <span>HaqDaar — Haq Se Sehat Tak</span>
-            </div>
-            <p className="text-slate-400 max-w-md text-[11px]">
-              Built for Bharat Builds Tour 2026 by Team NEXBYTE (Leader: Krishna, Code: FJS4C4). MIT Licensed.
-            </p>
-          </div>
+        <div className="max-w-6xl mx-auto flex flex-col gap-5">
+          {/* Disclaimer inside footer */}
+          <DisclaimerBanner />
 
-          <div className="flex flex-wrap items-center justify-center gap-4 text-slate-300">
-            <button
-              onClick={() => setIsAwsModalOpen(true)}
-              className="hover:text-white transition-colors"
-            >
-              AWS Proof Console
-            </button>
-            <span>•</span>
-            <button
-              onClick={() => setIsChecklistModalOpen(true)}
-              className="hover:text-white transition-colors"
-            >
-              Pre-Submit Checklist
-            </button>
-            <span>•</span>
-            <a
-              href="https://pmjay.gov.in"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-white flex items-center gap-1 transition-colors"
-            >
-              NHA PM-JAY <ExternalLink size={11} />
-            </a>
-            <span>•</span>
-            <span className="text-emerald-400 font-mono">Status: 200 OK (ap-south-1)</span>
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
+            <div>
+              <div className="flex items-center justify-center md:justify-start gap-2 text-white font-bold text-sm mb-1 font-heading">
+                <ShieldCheck className="text-emerald-400" size={18} />
+                <span>HaqDaar — Haq Se Sehat Tak</span>
+              </div>
+              <p className="text-slate-400 max-w-md text-[11px]">
+                Built for Bharat Builds Tour 2026 by Team NEXBYTE (Leader: Krishna, Code: FJS4C4). MIT Licensed.
+              </p>
+            </div>
+
+            <div className="flex flex-wrap items-center justify-center gap-4 text-slate-300">
+              <button
+                onClick={() => setIsAwsModalOpen(true)}
+                className="hover:text-white transition-colors"
+              >
+                AWS Proof Console
+              </button>
+              <span>•</span>
+              <button
+                onClick={() => setIsChecklistModalOpen(true)}
+                className="hover:text-white transition-colors"
+              >
+                Pre-Submit Checklist
+              </button>
+              <span>•</span>
+              <a
+                href="https://pmjay.gov.in"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-white flex items-center gap-1 transition-colors"
+              >
+                NHA PM-JAY <ExternalLink size={11} />
+              </a>
+              <span>•</span>
+              <span className="text-emerald-400 font-mono">Status: 200 OK (ap-south-1)</span>
+            </div>
           </div>
         </div>
       </footer>

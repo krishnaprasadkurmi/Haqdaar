@@ -28,7 +28,7 @@ export default function Navbar({
   const [langMenuOpen, setLangMenuOpen] = useState(false);
 
   return (
-    <nav className="border-b border-white/10 bg-slate-950/90 backdrop-blur-md sticky top-[41px] z-40 px-3 sm:px-6 lg:px-8 py-3">
+    <nav className="border-b border-white/10 bg-slate-950/90 backdrop-blur-md sticky top-0 z-40 px-3 sm:px-6 lg:px-8 py-3">
       <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
         {/* Brand */}
         <div className="flex items-center gap-3">

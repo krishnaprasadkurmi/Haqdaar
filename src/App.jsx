@@ -140,10 +140,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen flex flex-col bg-[#070B14] text-slate-100 selection:bg-emerald-500 selection:text-slate-950">
-      {/* 1. Persistent UI Line (§03 Requirement) */}
-      <DisclaimerBanner />
-
-      {/* 2. Top Navigation with Mode Toggle & Language Selector */}
+      {/* 1. Top Navigation with Mode Toggle & Language Selector */}
       <Navbar
         mode={mode}
         onToggleMode={(newMode) => setMode(newMode)}
@@ -241,6 +238,9 @@ export default function App() {
             <ResultsView result={result} currentUser={currentUser} />
           </div>
         )}
+
+        {/* Informational Guidance & Safety Notice Card */}
+        <DisclaimerBanner />
       </main>
 
       {/* Footer */}

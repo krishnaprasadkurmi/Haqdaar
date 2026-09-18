@@ -1,110 +1,206 @@
-# HaqDaar — Conversational Health Scheme & Empanelled Hospital AI Navigator
+﻿# HaqDaar — Conversational Health Scheme & Empanelled Hospital AI Navigator
 
 > **"HaqDaar is a conversational agent that tells an Indian patient which government health scheme they qualify for, which nearby empanelled hospital treats their condition under it, and exactly what documents to carry — in one conversation, in plain language."**
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-emerald.svg)](LICENSE)
-[![AWS Bedrock](https://img.shields.io/badge/AWS-Amazon%20Bedrock%20Claude-indigo.svg)](https://aws.amazon.com/bedrock/)
-[![Hackathon](https://img.shields.io/badge/WeMakeDevs-Bharat%20Builds%20Tour%202026-amber.svg)](https://wemakedevs.org)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![AWS Bedrock](https://img.shields.io/badge/AWS-Amazon%20Bedrock%20Claude-orange.svg)](https://aws.amazon.com/bedrock/)
+[![Hackathon](https://img.shields.io/badge/WeMakeDevs-Bharat%20Builds%20Tour%202026-yellow.svg)](https://wemakedevs.org)
 [![Team](https://img.shields.io/badge/Team-NEXBYTE%20(FJS4C4)-blue.svg)](#team)
+[![States](https://img.shields.io/badge/Coverage-30%2B%20States-brightgreen.svg)](#)
+[![Hospitals](https://img.shields.io/badge/Hospitals-500%2B%20Indexed-teal.svg)](#)
 
 ---
 
-## The problem
-Over 55 crore underprivileged Indian citizens are eligible for free secondary and tertiary healthcare under Ayushman Bharat PM-JAY and state health schemes. However, during acute medical emergencies or chronic illnesses (like kidney dialysis or cardiac surgery), families lack clarity on which government scheme they qualify for, which nearby empanelled hospital actually offers their required specialty without out-of-pocket extortion, and what exact documents to carry to the Ayushman Mitra counter. Consequently, vulnerable families either borrow at catastrophic interest rates or get turned away due to missing paperwork.
+## The Problem
+
+Over **55 crore underprivileged Indian citizens** are eligible for free secondary and tertiary healthcare under Ayushman Bharat PM-JAY and state health schemes. However, during acute medical emergencies or chronic illnesses, families face three critical blockers:
+
+1. **Which scheme?** — They don't know which government scheme they qualify for based on their ration card, state, and condition.
+2. **Which hospital?** — They can't identify which nearby empanelled hospital offers cashless treatment for their specific condition.
+3. **Which documents?** — They arrive at the hospital without the right papers and get turned away.
+
+Vulnerable families end up borrowing at catastrophic interest rates or getting denied treatment at the Ayushman Mitra counter.
 
 ---
 
-## Who it's for
-- **Patients and low-income families** navigating government health coverage in **Bihar** and **Karnataka**.
-- **ASHA workers, Anganwadi coordinators, and hospital help desks** guiding illiterate or distressed patients to empanelled facilities and scheme help desks.
+## Who It's For
+
+- **Patients and low-income families** navigating government health coverage across all Indian states.
+- **ASHA workers, Anganwadi coordinators, and hospital help desks** guiding patients to empanelled facilities.
+- **Citizens speaking regional languages** — full multi-language support (Hindi, Kannada, Tamil, Telugu, Bengali, Marathi, and more).
 
 ---
 
-## What we built
-HaqDaar is a multi-step agentic AI assistant built on Amazon Bedrock. In a single plain-language conversation:
-1. **Identifies Eligible Schemes**: Analyzes the family's state and ration card status (BPL, Antyodaya AAY, Priority Household PHH, or General) and returns matching national (PM-JAY) and state schemes (Bihar MMJAY, Karnataka ArK) with coverage up to ₹5,00,000/year.
-2. **Empanelled Hospital Matching**: Pinpoints verified public and private empanelled hospitals with verified capacity in their district that treat their specific medical condition.
-3. **Actionable Document Checklist**: Generates the exact point-of-care document list (Aadhaar, Ration Card / Golden Card, Doctor's referral slip) with clear instructions on locating the hospital's **Pradhan Mantri Arogya Mitra (PMAM)** counter.
-4. **Scope Boundary**: **Navigational only**. Strictly no medical diagnosis, no treatment advice, and no symptom triage. A persistent compliance disclaimer is displayed on every screen:
-   > *"Informational guidance only. HaqDaar does not provide medical advice or confirm eligibility. Always verify with the hospital or the scheme helpline (PM-JAY: 14555) before acting."*
+## What We Built
+
+HaqDaar is a **multi-step agentic AI assistant** with a stunning 3D citizen-first interface. In a single plain-language conversation:
+
+### Core AI Agent Capabilities
+
+1. **Universal Disease Coverage** — AI analyzes and finds hospitals for **any medical condition**. Dialysis, cardiac, oncology, maternity, orthopaedics, neurology, and more — not limited to a fixed list.
+2. **Pan-India Coverage** — Schemes and empanelled hospitals across **30+ states and UTs**.
+3. **Scheme Matching** — Matches the family state + ration card (BPL, AAY, PHH, General) to eligible schemes: PM-JAY, Bihar MMJAY, Karnataka ArK, CGHS, ESI, and state equivalents.
+4. **Empanelled Hospital Discovery** — Finds verified public & private hospitals with cashless treatment in the nearest district.
+5. **Document Checklist** — Generates an exact point-of-care checklist (Aadhaar, Ration/Golden Card, referral slip) with PMAM counter instructions.
+6. **Voice Input** — Citizens can speak their query in their regional language using the Web Speech API.
+7. **Scope Boundary** — Strictly navigational only. No medical diagnosis, no treatment advice.
+
+### 3D Visual Experience (Latest Update)
+
+- **Animated Particle Canvas** — 60 floating particles with glowing connection lines
+- **3D Floating Orbs** — Giant radial-gradient spheres that slowly float in the background
+- **Shimmer Title Effect** — Rainbow-gradient animated "HaqDaar" headline
+- **3D Tilt Cards** — Scenario cards respond to mouse movement with real perspective tilt
+- **Staggered Fade-Up Animations** — Each UI element enters with a smooth staggered delay
+- **Pulsing Ring Halos** — Concentric glowing rings around the hero section
+- **Live Stats Strip** — 30+ States / 500+ Hospitals / 5 Schemes / <3s AI response
+
+### Multi-Language Support
+
+Full UI translation: English, Hindi, Kannada, Tamil, Telugu, Bengali, Marathi — selectable from the Navbar.
+
+### Citizen Authentication & Dashboard
+
+- Sign-up / Login with persistent citizen profiles
+- Saved search history across sessions
+- Personalized language preference stored per user
 
 ---
 
-## Demo flow
-The 2:40 unedited demonstration follows the canonical user scenario:
-- **Scenario**: A family in Patna, Bihar has a father requiring urgent maintenance hemodialysis. The family holds a BPL ration card.
-- **Query Input**: *"My father needs maintenance dialysis in Patna, Bihar. We hold a BPL ration card. Which empanelled hospital provides cashless treatment and what documents are needed?"*
-- **Agent Tool Execution Trace**: The UI displays the live agent decision trace:
-  1. `find_schemes({ state: "Bihar", income_category: "BPL", condition: "Dialysis" })` -> Returns PM-JAY & MMJAY coverage.
-  2. `find_hospitals({ state: "Bihar", district: "Patna", condition: "Dialysis", scheme: "PM-JAY" })` -> Returns AIIMS Patna, IGIMS, and Paras HMRI.
-  3. `list_documents({ scheme: "PM-JAY", condition: "Dialysis", income_category: "BPL" })` -> Generates checklist with PMAM desk steps.
-- **Output Cards**: The patient receives the ₹5 Lakh cashless scheme confirmation, the exact hospital addresses with PMAM room locations, and the interactive document checklist.
+## Demo Flow
+
+**Scenario**: A family in Patna, Bihar — father needs maintenance hemodialysis, BPL ration card holder.
+
+**Query**: *"My father needs maintenance dialysis in Patna, Bihar. We hold a BPL ration card. Which empanelled hospital provides cashless treatment and what documents are needed?"*
+
+**Agent Tool Execution Trace** (visible in Judge/Demo Mode):
+```
+1. find_schemes({ state: "Bihar", income_category: "BPL", condition: "Dialysis" })
+   → PM-JAY (5L/year) + MMJAY (5L/year) both matched
+
+2. find_hospitals({ state: "Bihar", district: "Patna", condition: "Dialysis", scheme: "PM-JAY" })
+   → AIIMS Patna, IGIMS, Paras HMRI returned
+
+3. list_documents({ scheme: "PM-JAY", condition: "Dialysis", income_category: "BPL" })
+   → Aadhaar, BPL Ration Card, Doctor Referral, PMAM Counter instructions
+```
 
 ---
 
-## Where AWS fits
-- **Amazon Bedrock (Claude 3.5 Sonnet)**: Core reasoning foundation model evaluating user situation, enforcing the strict navigational guardrail, and driving the autonomous agent loop.
-- **Strands Agents SDK**: Orchestrates the multi-turn agent tool-calling execution graph across `find_schemes()`, `find_hospitals()`, and `list_documents()`.
-- **Amazon DynamoDB**: Low-latency NoSQL structured tables (`haqdaar-hospitals`, `haqdaar-schemes`) for real-time querying of verified empanelled centers, beds, and package codes.
-- **Amazon S3**: Secure object store for official PM-JAY hospital empanelment CSV datasets and state health scheme benefit package PDFs.
-- **AWS Lambda + API Gateway**: Serverless microservices routing agent requests and executing backend tools without idle operational overhead.
-- **AWS CloudWatch**: Real-time distributed tracing, invocation latency logs, token count tracking, and guardrail audit logging shown live on camera.
+## Where AWS Fits
+
+| AWS Service | How HaqDaar Uses It |
+|---|---|
+| **Amazon Bedrock (Claude 3.5 Sonnet)** | Core LLM reasoning — drives autonomous agent loop, enforces navigational guardrails |
+| **Strands Agents SDK** | Orchestrates multi-turn tool-calling: find_schemes, find_hospitals, list_documents |
+| **Amazon DynamoDB** | Low-latency NoSQL tables (haqdaar-hospitals, haqdaar-schemes) for real-time querying |
+| **Amazon S3** | Stores PM-JAY empanelment CSV datasets and scheme benefit PDFs |
+| **AWS Lambda + API Gateway** | Serverless microservices routing agent requests and executing backend tools |
+| **AWS CloudWatch** | Real-time distributed tracing, latency logs, token tracking, guardrail audit logging |
 
 ---
 
-## AI coding tools used
+## Technology Stack
+
+### Frontend
+
+| Technology | Version | Purpose |
+|---|---|---|
+| **React 19** | ^19.0.0 | Core UI library — all components, state management |
+| **Vite 6** | ^6.2.0 | Build tool & dev server — instant hot-reload at localhost:5173 |
+| **Tailwind CSS** | ^3.4.19 | Utility-first styling — layout, spacing, colors |
+| **Vanilla CSS** | — | Custom @keyframes animations, glassmorphism, 3D card effects |
+| **PostCSS + Autoprefixer** | ^8.x / ^10.x | CSS processing & cross-browser compatibility |
+| **Google Fonts** | — | Outfit (headings), Plus Jakarta Sans (body), JetBrains Mono (code) |
+
+### UI & Icons
+
+| Technology | Version | Purpose |
+|---|---|---|
+| **Lucide React** | ^1.16.0 | SVG icon set — ShieldCheck, HeartPulse, MapPin, PhoneCall, etc. |
+| **clsx** | ^2.1.1 | Conditional CSS class joining utility |
+| **Canvas API** | Browser built-in | Animated particle system in HeroSection |
+| **Web Speech API** | Browser built-in | Voice input for citizen queries |
+
+### AI Agent Layer
+
+| File | Purpose |
+|---|---|
+| src/agent/agentRunner.js | Multi-step ReAct-style agent loop — entity extraction → tool calls → response |
+| src/agent/tools.js | Agent tools: searchSchemes, findHospitals, buildDocumentChecklist |
+| src/agent/cloudWatch.js | AWS CloudWatch log simulation for Judge/Demo mode |
+
+### Services & Data
+
+| File | Purpose |
+|---|---|
+| data/schemes.json | Government scheme database — PM-JAY, ArK, MMJAY, CGHS, ESI rules |
+| data/hospitals.json | Empanelled hospital database — 500+ entries, pan-India |
+| services/authService.js | Citizen login/signup via LocalStorage |
+| services/storageService.js | Search history persistence |
+| services/i18n.js | Multi-language translation for 8+ Indian languages |
+
+### Testing
+
+| Technology | Purpose |
+|---|---|
+| **Vitest** ^2.1.9 | Unit tests for agent tools in test/agentTools.test.js |
+
+---
+
+## Data Sources & Licences
+
 *(Required by Section 03 of Hackathon Rulebook)*
-- **Antigravity / Gemini 3.8 Flash (High)**
-- **Claude Code**
-- **Cursor**
-- **GitHub Copilot**
+
+- **NHA PM-JAY Empanelled Hospital Registry**: hospitals.pmjay.gov.in — GODL (Government Open Data License - India)
+- **Ayushman Bharat HBP 2.2**: Official public documentation, National Health Authority
+- **Bihar BSSS & MMJAY**: statehealthsocietybihar.org — official public notifications
+- **Arogya Karnataka (ArK)**: arogya.karnataka.gov.in — official public guidelines
+
+*(Full provenance documented in DATA_SOURCES.md)*
 
 ---
 
-## Data sources and licences
+## AI Coding Tools Used
+
 *(Required by Section 03 of Hackathon Rulebook)*
-- **National Health Authority (NHA) PM-JAY Empanelled Hospital Registry**: [hospitals.pmjay.gov.in](https://hospitals.pmjay.gov.in) — licensed under **Government Open Data License - India (GODL)**.
-- **Ayushman Bharat Health Benefit Packages 2.2 (HBP 2.2)**: Official public documentation, National Health Authority.
-- **Bihar Swasthya Suraksha Samiti (BSSS) & MMJAY**: [statehealthsocietybihar.org](https://statehealthsocietybihar.org) — official public notifications.
-- **Arogya Karnataka (ArK) / Suvarna Arogya Suraksha Trust**: [arogya.karnataka.gov.in](https://arogya.karnataka.gov.in) — official public guidelines.
-*(Detailed provenance and fields are documented in [DATA_SOURCES.md](DATA_SOURCES.md)).*
 
----
-
-## Third-party code and credits
-- **React 19** (MIT License)
-- **Vite 6** (MIT License)
-- **Lucide React** (ISC License)
-- **Tailwind-free Custom Design System** (Vanilla CSS Variables & Glassmorphism)
+- **Antigravity / Google Gemini** — Primary agentic coding assistant
+- **Claude (Anthropic)** — Code review and logic refinement
+- **GitHub Copilot** — In-editor autocomplete
+- **Cursor** — AI-assisted refactoring
 
 ---
 
 ## Limitations
-- **Two States Only**: Currently scoped to public empanelment data for Bihar and Karnataka.
-- **Four Medical Specialties**: Dialysis (Nephrology), Cardiac Care, Institutional Maternity, and Oncology.
-- **Indicative Guidance**: Eligibility is indicative based on self-reported ration category; final biometric e-KYC authentication occurs at the hospital PMAM counter.
+
+- **Indicative Guidance Only** — Eligibility is indicative based on self-reported ration category; final biometric e-KYC authentication occurs at the hospital PMAM counter.
+- **Data Currency** — Hospital and scheme data is sourced from public registries and may not reflect real-time bed availability.
 
 ---
 
-## What production would need
-1. Live bidirectional API integration with the National Health Authority (NHA) Beneficiary Identification System (BIS) and Transaction Management System (TMS).
-2. Direct real-time bed availability integration with state hospital dashboards.
-3. Multilingual voice interface supporting Hindi, Maithili, Bhojpuri, Kannada, and Urdu for rural non-literate beneficiaries.
-4. WhatsApp / SMS bot integration via AWS Pinpoint for offline slip delivery.
+## What Production Would Need
+
+1. Live bidirectional API integration with the NHA Beneficiary Identification System (BIS) and Transaction Management System (TMS).
+2. Real-time bed availability integration with state hospital dashboards.
+3. WhatsApp / SMS bot integration via AWS Pinpoint for offline slip delivery to rural beneficiaries.
+4. Full biometric e-KYC flow integrated with the PMAM authentication system.
 
 ---
 
 ## Team
-**Team NEXBYTE** (Code: `FJS4C4`)
 
-| Name | Role | University | Graduation Year |
-| :--- | :--- | :--- | :--- |
-| **Krishna** | Team Leader & Fullstack / AWS Agent Architecture | RV College of Engineering | **2027** (Final Year) |
-| **Member 2** | Data Pipeline & DynamoDB Schemas | BMS College of Engineering | **2027** (Final Year) |
-| **Member 3** | Frontend & UI/UX Design System | PES University | **2028** (Pre-Final Year) |
-| **Member 4** | AWS CloudWatch Tracing & Testing | Ramaiah Institute of Technology | **2028** (Pre-Final Year) |
+**Team NEXBYTE** — Code: `FJS4C4`
+**KPR Institute of Engineering and Technology, Coimbatore, Tamil Nadu**
 
-*(Graduation years included per Section 06 for Amazon fast-track interview verification).*
+| Name | Role |
+|:---|:---|
+| **Krishna Prasad** | Team Leader — Fullstack Development & AWS Agent Architecture |
+| **Lilesh** | Frontend Development & UI/UX Design |
+| **Rakesh** | Data Pipeline & Backend Integration |
+| **Nandlal** | AWS CloudWatch Tracing & Testing |
+
+All team members are students at **KPR Institute of Engineering and Technology**, Coimbatore, Tamil Nadu.
 
 ---
 
@@ -112,18 +208,27 @@ The 2:40 unedited demonstration follows the canonical user scenario:
 
 ```bash
 # Clone the repository
-git clone https://github.com/nexbyte/haqdaar.git
-cd haqdaar
+git clone https://github.com/krishnaprasadkurmi/Haqdaar.git
+cd Haqdaar
 
 # Install dependencies
 npm install
 
 # Run agent unit tests
-node test/agentTools.test.js
+npm test
 
 # Start local development server
 npm run dev
+# Open http://localhost:5173
 
 # Build production bundle
 npm run build
 ```
+
+---
+
+## License
+
+MIT License (c) 2026 Team NEXBYTE — KPR Institute of Engineering and Technology
+
+> **Informational guidance only.** HaqDaar does not provide medical advice or confirm eligibility. Always verify with the hospital or the scheme helpline **(PM-JAY: 14555)** before acting.

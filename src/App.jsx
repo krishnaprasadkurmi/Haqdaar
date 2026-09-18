@@ -3,7 +3,6 @@ import Navbar from './components/Navbar';
 import DisclaimerBanner from './components/DisclaimerBanner';
 import HeroSection from './components/HeroSection';
 import QueryBar from './components/QueryBar';
-import AgentTraceInspector from './components/AgentTraceInspector';
 import ResultsView from './components/ResultsView';
 import AwsInspectorModal from './components/AwsInspectorModal';
 import PreSubmitModal from './components/PreSubmitModal';
@@ -239,8 +238,6 @@ export default function App() {
               </div>
             )}
 
-            {/* Visible Agent Loop Trace Inspector (§03, §04 Proof) */}
-            <AgentTraceInspector traces={traces} isRunning={isLoading} />
 
             {/* 6. Structured Output: Scheme + Hospitals + Checklist */}
             <ResultsView result={result} currentUser={currentUser} />
